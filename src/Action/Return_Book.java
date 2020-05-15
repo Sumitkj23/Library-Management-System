@@ -39,6 +39,8 @@ public class Return_Book extends javax.swing.JFrame {
         
         if(jTextField1.getText().trim().isEmpty())
             JOptionPane.showMessageDialog(null, "Plese Enter Student Id");
+        else if(jTextField8.getText().trim().isEmpty())     // check click on search button or not, if click on search button then BookId present in jTextField8...
+            JOptionPane.showMessageDialog(null, "Plese Click On Search Button For All Information Of Issue Book");
         else if(returnDate.isEmpty())
             JOptionPane.showMessageDialog(null, "Plese Fill Return Date Filed");
         else
@@ -417,7 +419,7 @@ public class Return_Book extends javax.swing.JFrame {
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         // TODO add your handling code here:
         
-        if(validateData())      // check studentId and returnDate is filled or not
+        if(!jTextField1.getText().isEmpty() )      // check studentId filled or not
         {
             String sql = "select * from Issue_book where Student_Id=?";
             try
@@ -454,8 +456,26 @@ public class Return_Book extends javax.swing.JFrame {
                     jTextField13.setText(add13);
 
                 }
-                else
+                else    
+                {
                     JOptionPane.showMessageDialog(null, "Plese! Enter Valid Student_Id");
+                    
+                    // In returning more than one book... 
+                    // if click on search button and student id not present then clear all previous text from textfield
+                    
+                    jTextField2.setText("");
+                    jTextField3.setText("");
+                    jTextField4.setText("");
+                    jTextField5.setText("");
+                    jTextField6.setText("");
+                    jTextField7.setText("");
+                    jTextField8.setText("");
+                    jTextField9.setText("");
+                    jTextField10.setText("");
+                    jTextField11.setText("");
+                    jTextField12.setText("");
+                    jTextField13.setText("");
+                }
             }catch(Exception e)
             {
                 JOptionPane.showMessageDialog(null, e);
@@ -485,7 +505,14 @@ public class Return_Book extends javax.swing.JFrame {
                 deleteUpdate();     // if found then record add into 'Return_book' tabel
             }
             else    // if book record is not present 'Issue_book' tabel then...
+            {
                 JOptionPane.showMessageDialog(null, "No Any Book Issued With This Student Id");
+                
+                // if previos data store in textfields and user want to return more than one book
+                // and he/she enter student id but not click on search button 
+                // so, for checking student Id valid or not
+                JOptionPane.showMessageDialog(null, "Plese Click On Search Button For Checking StudentId Exist Or Not");
+            }
         }
     }//GEN-LAST:event_return_bookActionPerformed
 

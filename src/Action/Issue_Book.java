@@ -54,7 +54,100 @@ public class Issue_Book extends javax.swing.JFrame {
         else
             b = true;
         
+        return b;
+    }
+    
+     // if previous data store in textfields and user want to issue one more book
+     // user enter bookId but not click on search button and submit directly
+     // this method checks all the text are valid or not for this new BookId
+    boolean crossCheckBookDetails()    
+    {
+        boolean b = false;
         
+        try
+        {
+            conn = javaConnect.ConnectDb();
+            
+            String sql = "select * from Book where Book_Id = ?";
+            
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, jTextField1.getText());
+            rs = pst.executeQuery();
+            if(rs.next())
+            {
+                if(!jTextField2.getText().equals(rs.getString("Name")))
+                    JOptionPane.showMessageDialog(null, "Book Name Not Match With Given Book Id");
+                else if(!jTextField3.getText().equals(rs.getString("Edition")))
+                    JOptionPane.showMessageDialog(null, "Book Edition Not Match With Given Book Id");
+                else if(!jTextField4.getText().equals(rs.getString("Publisher")))
+                    JOptionPane.showMessageDialog(null, "Book Publisher Not Match With Given Book Id");
+                if(!jTextField5.getText().equals(rs.getString("Price")))
+                    JOptionPane.showMessageDialog(null, "Book Name Not Match With Given Book Id");
+                else
+                    b = true;
+                
+                rs.close();
+                pst.close();
+                conn.close();
+                
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Book Id Does Not Match From Any Library Book");
+            
+        }catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        return b;
+    }
+    
+    
+     // if previous data store in textfields and user want to issue one more book
+     // user enter StudentId but not click on search button and submit directly
+     // this method checks all the text are valid or not for this new StudentId
+    boolean crossCheckStudentDetails()
+    {
+        boolean b = false;
+        
+        try
+        {
+            conn = javaConnect.ConnectDb();
+            
+            String sql = "select * from Student where Student_Id = ?";
+            
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, jTextField6.getText());
+            rs = pst.executeQuery();
+            if(rs.next())
+            {
+                if(!jTextField7.getText().equals(rs.getString("Name")))
+                    JOptionPane.showMessageDialog(null, "Student Name Not Match With Given Student Id");
+                if(!jTextField8.getText().equals(rs.getString("Father_Name")))
+                    JOptionPane.showMessageDialog(null, "Father Name Not Match With Given Student Id");
+                if(!jTextField9.getText().equals(rs.getString("Course")))
+                    JOptionPane.showMessageDialog(null, "Course Not Match With Given Student Id");
+                if(!jTextField10.getText().equals(rs.getString("Branch")))
+                    JOptionPane.showMessageDialog(null, "Branch Not Match With Given Student Id");
+                if(!jTextField11.getText().equals(rs.getString("Year")))
+                    JOptionPane.showMessageDialog(null, "Year Not Match With Given Student Id");
+                if(!jTextField12.getText().equals(rs.getString("Semester")))
+                    JOptionPane.showMessageDialog(null, "Semester Not Match With Given Student Id");
+                else
+                    b = true;
+                
+                rs.close();
+                pst.close();
+                conn.close();
+                
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Student Id Does Not Match From Any Student Record");
+            
+        }catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, e);
+        }
         
         return b;
     }
@@ -399,7 +492,17 @@ public class Issue_Book extends javax.swing.JFrame {
                     jTextField5.setText(add4);
                 }
                 else
+                {
                     JOptionPane.showMessageDialog(null, "Book_Id Not Found !!! \nPlese Enter Valid Book_Id...");
+                    
+                    // if user want issue more than one book
+                    // he/she type new BookId and click on search button
+                    // if bookId not exist so all previous text must be clear from textfields
+                    jTextField2.setText("");
+                    jTextField3.setText("");
+                    jTextField4.setText("");
+                    jTextField5.setText("");
+                }
             }catch(Exception e)
             {
                 JOptionPane.showMessageDialog(null, e);
@@ -445,7 +548,19 @@ public class Issue_Book extends javax.swing.JFrame {
                     jTextField12.setText(add6);
                 }
                 else
+                {
                     JOptionPane.showMessageDialog(null, "Student_Id Not Found!!! Enter Valid Student_Id");
+                    
+                    // if user want issue more than one book
+                    // he/she type new StudentId and click on search button
+                    // if StudentId not exist so all previous text must be clear from textfields
+                    jTextField7.setText("");
+                    jTextField8.setText("");
+                    jTextField9.setText("");
+                    jTextField10.setText("");
+                    jTextField11.setText("");
+                    jTextField12.setText("");
+                }
             }catch(Exception e)
             {
                 JOptionPane.showMessageDialog(null, e);
@@ -467,34 +582,40 @@ public class Issue_Book extends javax.swing.JFrame {
         
         if(validateData())
         {
-            String sql = "insert into Issue_book(Book_Id, Name, Edition, Publisher, Price, Student_Id, S_Name, Father_Name, Course, Branch, Year, Semester, Issue_Date) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            try
+            // check textFields data's are filled properly with according to bookId and studentId
+            if(crossCheckBookDetails() && crossCheckStudentDetails())   
             {
-                conn = javaConnect.ConnectDb();
-                pst = conn.prepareStatement(sql);
-                pst.setString(1, jTextField1.getText());
-                pst.setString(2, jTextField2.getText());
-                pst.setString(3, jTextField3.getText());
-                pst.setString(4, jTextField4.getText());
-                pst.setString(5, jTextField5.getText());
-                pst.setString(6, jTextField6.getText());
-                pst.setString(7, jTextField7.getText());
-                pst.setString(8, jTextField8.getText());
-                pst.setString(9, jTextField9.getText());
-                pst.setString(10, jTextField10.getText());
-                pst.setString(11, jTextField11.getText());
-                pst.setString(12, jTextField12.getText());
-                pst.setString(13, issueDate);
+                String sql = "insert into Issue_book(Book_Id, Name, Edition, Publisher, Price, Student_Id, S_Name, Father_Name, Course, Branch, Year, Semester, Issue_Date) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                try
+                {
+                    conn = javaConnect.ConnectDb();
+                    pst = conn.prepareStatement(sql);
+                    pst.setString(1, jTextField1.getText());
+                    pst.setString(2, jTextField2.getText());
+                    pst.setString(3, jTextField3.getText());
+                    pst.setString(4, jTextField4.getText());
+                    pst.setString(5, jTextField5.getText());
+                    pst.setString(6, jTextField6.getText());
+                    pst.setString(7, jTextField7.getText());
+                    pst.setString(8, jTextField8.getText());
+                    pst.setString(9, jTextField9.getText());
+                    pst.setString(10, jTextField10.getText());
+                    pst.setString(11, jTextField11.getText());
+                    pst.setString(12, jTextField12.getText());
+                    pst.setString(13, issueDate);
 
-                pst.execute();
-                JOptionPane.showMessageDialog(null, "Book Issued");
+                    pst.execute();
+                    JOptionPane.showMessageDialog(null, "Book Issued");
 
-                pst.close();
-                conn.close();
-            }catch(Exception e)
-            {
-                JOptionPane.showMessageDialog(null, e);
+                    pst.close();
+                    conn.close();
+                }catch(Exception e)
+                {
+                    JOptionPane.showMessageDialog(null, e);
+                }
             }
+            else  // it means, previos data are present in textfields so... message for user to click on search button, for checking BookId Or StudentId Exist Or Not
+                JOptionPane.showMessageDialog(null, "Plese Click On Search Button For Checking BookId Or StudentId Exist Or Not");
         }
     }//GEN-LAST:event_issueActionPerformed
 
