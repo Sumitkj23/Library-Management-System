@@ -20,6 +20,9 @@ public class Return_Book extends javax.swing.JFrame {
     Connection conn;
     PreparedStatement pst;
     ResultSet rs;
+    
+    String returnDate;
+    
     /**
      * Creates new form Return_Book
      */
@@ -28,15 +31,59 @@ public class Return_Book extends javax.swing.JFrame {
         initComponents();
     }
     
-    public void delete()
+    boolean validateData()      // check student Id and return Date is filled or not
     {
+        boolean b = false;
+        
+        returnDate = ((JTextField)jDateChooser1.getDateEditor().getUiComponent()).getText();
+        
+        if(jTextField1.getText().trim().isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Enter Student Id");
+        else if(returnDate.isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Fill Return Date Filed");
+        else
+            b = true;
+            
+        return b;
+    }
+    
+        //when click on 'Return' button, first we have to check book record are present or not in 'Issue_book' tabel
+    boolean isIssueBookPresent()
+    {
+        boolean b = false;
+        
+        String s = "select * from Issue_book where Student_Id=?";
+        try
+        {
+            conn = javaConnect.ConnectDb();
+            pst = conn.prepareStatement(s);
+            pst.setString(1, jTextField1.getText());    // get StudentId
+            rs = pst.executeQuery();
+            
+            if(rs.next())
+                b = true;
+            
+            rs.close();
+            pst.close();
+            conn.close();
+            
+        }catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return b;
+    }
+    
+            //  delete issue book record from 'Issue_book' tabel
+    public void delete()
+    {   
         String sql = "delete from Issue_book where Student_Id=?";
         
         try
         {
             conn = javaConnect.ConnectDb();
             pst = conn.prepareStatement(sql);
-            pst.setString(1, jTextField1.getText());
+            pst.setString(1, jTextField1.getText());    // get StudentId
             pst.execute();
             
             pst.close();
@@ -45,8 +92,10 @@ public class Return_Book extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, e);
         }
+        
     }
     
+            // when we click on return then also add data in 'Return_book' tabel
     public void deleteUpdate()
     {
         String sql="insert into Return_book(Student_Id, S_Name, F_Name, Course, Branch, Year, Semester, Book_Id, B_Name, Edition, Publisher, Price, Return_Date) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -66,7 +115,7 @@ public class Return_Book extends javax.swing.JFrame {
             pst.setString(10, jTextField10.getText());
             pst.setString(11, jTextField11.getText());
             pst.setString(12, jTextField12.getText());
-            pst.setString(13, ((JTextField)jDateChooser1.getDateEditor().getUiComponent()).getText());
+            pst.setString(13, returnDate);
             pst.execute();
             JOptionPane.showMessageDialog(null, "Book Returned");
             
@@ -194,11 +243,6 @@ public class Return_Book extends javax.swing.JFrame {
         jLabel13.setText("Date Of Issue");
 
         jTextField13.setEditable(false);
-        jTextField13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField13ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -368,68 +412,82 @@ public class Return_Book extends javax.swing.JFrame {
                 
     }//GEN-LAST:event_backActionPerformed
 
+            // search book are issued or not with the help of student Id 
+            // if book issued then must be its information in 'Issue_book' tabel
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         // TODO add your handling code here:
-        String sql = "select * from Issue_book where Student_Id=?";
-        try
+        
+        if(validateData())      // check studentId and returnDate is filled or not
         {
-            conn = javaConnect.ConnectDb();
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, jTextField1.getText());
-            rs = pst.executeQuery();
-            if(rs.next())
+            String sql = "select * from Issue_book where Student_Id=?";
+            try
             {
-                String add1 = rs.getString("S_Name");
-                jTextField2.setText(add1);
-                String add2 = rs.getString("Father_Name");
-                jTextField3.setText(add2);
-                String add3 = rs.getString("Course");
-                jTextField4.setText(add3);
-                String add4 = rs.getString("Branch");
-                jTextField5.setText(add4);
-                String add5 = rs.getString("Year");
-                jTextField6.setText(add5);
-                String add6 = rs.getString("Semester");
-                jTextField7.setText(add6);
-                String add8 = rs.getString("Book_Id");
-                jTextField8.setText(add8);
-                String add9 = rs.getString("Name");
-                jTextField9.setText(add9);
-                String add10 = rs.getString("Edition");
-                jTextField10.setText(add10);
-                String add11 = rs.getString("Publisher");
-                jTextField11.setText(add11);
-                String add12 = rs.getString("Price");
-                jTextField12.setText(add12);
-                String add13 = rs.getString("Issue_Date");
-                jTextField13.setText(add13);
-                
+                conn = javaConnect.ConnectDb();
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, jTextField1.getText());
+                rs = pst.executeQuery();
+                if(rs.next())
+                {
+                    String add1 = rs.getString("S_Name");
+                    jTextField2.setText(add1);
+                    String add2 = rs.getString("Father_Name");
+                    jTextField3.setText(add2);
+                    String add3 = rs.getString("Course");
+                    jTextField4.setText(add3);
+                    String add4 = rs.getString("Branch");
+                    jTextField5.setText(add4);
+                    String add5 = rs.getString("Year");
+                    jTextField6.setText(add5);
+                    String add6 = rs.getString("Semester");
+                    jTextField7.setText(add6);
+                    String add8 = rs.getString("Book_Id");
+                    jTextField8.setText(add8);
+                    String add9 = rs.getString("Name");
+                    jTextField9.setText(add9);
+                    String add10 = rs.getString("Edition");
+                    jTextField10.setText(add10);
+                    String add11 = rs.getString("Publisher");
+                    jTextField11.setText(add11);
+                    String add12 = rs.getString("Price");
+                    jTextField12.setText(add12);
+                    String add13 = rs.getString("Issue_Date");
+                    jTextField13.setText(add13);
+
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Plese! Enter Valid Student_Id");
+            }catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null, e);
             }
-            else
-                JOptionPane.showMessageDialog(null, "Plese! Enter Valid Student_Id");
-        }catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        finally
-        {
-            try{
-                rs.close();
-                pst.close();
-                conn.close();
-            }catch(Exception e) { JOptionPane.showMessageDialog(null, e); }
+            finally
+            {
+                try{
+                    rs.close();
+                    pst.close();
+                    conn.close();
+                }catch(Exception e) { JOptionPane.showMessageDialog(null, e); }
+            }
         }
     }//GEN-LAST:event_searchActionPerformed
 
+        //when click on 'Return' button, first we have to check book record are present or not in 'Issue_book' tabel
+        // if book record present then delete record from 'Issue_book'
+        // then add record into 'Return_book'
     private void return_bookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_return_bookActionPerformed
         // TODO add your handling code here:
-        delete();
-        deleteUpdate();
+        
+        if(validateData())      // check studentId and returnDate is filled or not
+        {
+            if(isIssueBookPresent())        // check book are present in 'Issue_book' tabel 
+            {
+                delete();       // if found then delete record from 'Issue_book' tabel
+                deleteUpdate();     // if found then record add into 'Return_book' tabel
+            }
+            else    // if book record is not present 'Issue_book' tabel then...
+                JOptionPane.showMessageDialog(null, "No Any Book Issued With This Student Id");
+        }
     }//GEN-LAST:event_return_bookActionPerformed
-
-    private void jTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField13ActionPerformed
 
     /**
      * @param args the command line arguments

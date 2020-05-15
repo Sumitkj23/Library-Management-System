@@ -318,6 +318,7 @@ public class Home extends javax.swing.JFrame {
         ob.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+        // call 'New_Book' object
     private void bookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookActionPerformed
         // TODO add your handling code here:
         setVisible(false);
@@ -325,6 +326,7 @@ public class Home extends javax.swing.JFrame {
         ob.setVisible(true);
     }//GEN-LAST:event_bookActionPerformed
 
+                // call 'statistics' object
     private void statisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsActionPerformed
         // TODO add your handling code here:
         setVisible(false);
@@ -332,6 +334,7 @@ public class Home extends javax.swing.JFrame {
         s.setVisible(true);
     }//GEN-LAST:event_statisticsActionPerformed
 
+                // call 'Student' object
     private void newUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newUserActionPerformed
         // TODO add your handling code here:
         setVisible(false);
@@ -339,13 +342,15 @@ public class Home extends javax.swing.JFrame {
         st.setVisible(true);
     }//GEN-LAST:event_newUserActionPerformed
 
+                // call 'Issue_Book' object
     private void issue_bookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_issue_bookActionPerformed
         // TODO add your handling code here:
         setVisible(false);
         Issue_Book ob = new Issue_Book();
         ob.setVisible(true);
     }//GEN-LAST:event_issue_bookActionPerformed
-
+        
+                // call 'Return_Book' object
     private void return_bookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_return_bookActionPerformed
         // TODO add your handling code here:
         setVisible(false);
@@ -353,6 +358,7 @@ public class Home extends javax.swing.JFrame {
         ob.setVisible(true);
     }//GEN-LAST:event_return_bookActionPerformed
 
+                // call 'About' object
     private void aboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutActionPerformed
         // TODO add your handling code here:
         setVisible(false);

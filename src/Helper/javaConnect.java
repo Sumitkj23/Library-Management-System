@@ -12,24 +12,25 @@ package Helper;
  */
 import java.sql.*;
 import javax.swing.JOptionPane;
+
 public class javaConnect {
     
-    Connection conn;
     
-    public static Connection ConnectDb()
+    public static Connection ConnectDb()    // static method.. so call directly by the help of class name
     {
+        Connection conn = null;
+        
         try
         {
-            Class.forName("org.sqlite.JDBC");
-            Connection conn;
-            conn = DriverManager.getConnection("jdbc:sqlite:src\\library.sqlite");
-            return conn;
+            Class.forName("org.sqlite.JDBC");       // use sqlite database
+            conn = DriverManager.getConnection("jdbc:sqlite:src\\library.sqlite");      // 'path of database' or you can give absolute path also 
         }
         catch(Exception e)
         {
             JOptionPane.showMessageDialog(null, e);
-            return null;
         }
+        
+        return conn;
     }
     
 }

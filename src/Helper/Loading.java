@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  *
  * @author Sumit Kumar
  */
-public class Loading extends javax.swing.JFrame implements Runnable{
+public class Loading extends javax.swing.JFrame implements Runnable{    // implements Runnable interface
 
     Thread th;
     /**
@@ -23,32 +23,35 @@ public class Loading extends javax.swing.JFrame implements Runnable{
     public Loading() {
         super("Loading...");
         initComponents();
-        th = new Thread((Runnable)this);
+        th = new Thread((Runnable)this);        // create new thread
     }
     
-    public void setUpLoading()
+    public void setUpLoading()      // public method because it is called by 'Login' class
     {
         setVisible(false);
-        th.start();
+        th.start();         // thread start, it means that it call run method
     }
+    
+    @Override
     public void run()
     {
         try
         {
-            for(int i=1;i<=200;i++)
+            for(int i=1;i<=200;i++)     // progress bar condition
             {
-                int m = jProgressBar1.getMaximum();
-                int n = jProgressBar1.getValue();
-                if(n<m)
-                    jProgressBar1.setValue(jProgressBar1.getValue()+1);
-                else
+                int m = jProgressBar1.getMaximum();     // get Maximum value of progress bar
+                int n = jProgressBar1.getValue();       // get Current value of progress bar
+                
+                if(n<m)     // check current value < maximum value
+                    jProgressBar1.setValue(jProgressBar1.getValue()+1);     // update progress bar's value by 1
+                else    // when current value > maximum value then, open 'Home' page and this loop should be break
                 {
                     setVisible(false);
                     Home ob = new Home();
                     ob.setVisible(true);
                     break;
                 }
-                Thread.sleep(50);
+                Thread.sleep(50);       // in every iteration thread become sleep for 50 ms
             }
         }catch(Exception e)
         {

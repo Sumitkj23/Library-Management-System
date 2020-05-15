@@ -29,51 +29,57 @@ public class Forgot extends javax.swing.JFrame {
     public Forgot() {
         super("Forgot Password");
         initComponents();
-        conn =javaConnect.ConnectDb();
     }
     
+        // method call by search button
     public void search()
     {
         String s1 = jTextField1.getText();
         String sql = "select * from Account where Username='"+s1+"'";
         try
         {
+            conn =javaConnect.ConnectDb();
             pst = conn.prepareStatement(sql);
             rs = pst.executeQuery();
             if(rs.next())
             {
-                jTextField2.setText(rs.getString(2));
-                jTextField3.setText(rs.getString(4));  // in desigining sec_q in no. 3 and in db it is in no. 4 so...
-                rs.close();
-                pst.close();
+                jTextField2.setText(rs.getString(2));   // in 'Account Tabel' name in no. 2(column no.) so...
+                jTextField3.setText(rs.getString(4));  // in 'Account Tabel' sec_q in no. 4(column no.) so...
             }
             else
-            {
                 JOptionPane.showMessageDialog(null, "Incorrect Username");
-            }
+
+            rs.close();
+            pst.close();
+            conn.close();
+        
         }catch(Exception e)
         {
             JOptionPane.showMessageDialog(null, e);
         }
     }
     
+        // method call by retrive button
     public void retrive()
     {
-        String s1 = jTextField4.getText().toUpperCase();
-        //String s2 = jTextField4.getText();
+        String s1 = jTextField4.getText().toUpperCase();    // convert text to uppercase letter, because db store sec_ans in uppercase formate 
+        
         String sql = "Select * from Account where Answer='"+s1+"'";
         try
         {
+            conn =javaConnect.ConnectDb();
             pst = conn.prepareStatement(sql);
             rs = pst.executeQuery();
+            
             if(rs.next())
-            {
-                jTextField5.setText(rs.getString(3));
-            }
+                jTextField5.setText(rs.getString(3));   // 'Account' table 'column 3' data store in jTextField5
             else
-            {
                 JOptionPane.showMessageDialog(null, "Wrong Answer");
-            }
+            
+            rs.close();
+            pst.close();
+            conn.close();
+            
         }catch(Exception e)
         {
             JOptionPane.showMessageDialog(null, e);

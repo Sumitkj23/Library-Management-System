@@ -30,7 +30,7 @@ public class Statistics extends javax.swing.JFrame {
         table2();
     }
     
-    public void table1()
+    void table1()    // set data in 'issue book details' panel
     {
         String sql = "select Book_Id, Name, Edition, Student_Id, S_Name, Issue_Date from Issue_book";
         try
@@ -38,7 +38,10 @@ public class Statistics extends javax.swing.JFrame {
             conn = javaConnect.ConnectDb();
             pst = conn.prepareStatement(sql);
             rs = pst.executeQuery();
-            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            // all the data which is present in 'Issue_book' table including column name
+            // set as it is in jTable1
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));    
             
             rs.close();
             pst.close();
@@ -49,7 +52,7 @@ public class Statistics extends javax.swing.JFrame {
         }
     }
     
-    public void table2()
+    void table2()     // set data in 'issue book details' panel
     {
         String sql = "select Student_Id, S_Name, F_Name, Book_Id, B_Name, Return_Date from Return_book";
         try
@@ -57,6 +60,9 @@ public class Statistics extends javax.swing.JFrame {
             conn = javaConnect.ConnectDb();
             pst = conn.prepareStatement(sql);
             rs = pst.executeQuery();
+            
+            // all the data which is present in 'Return_book' table including column name
+            // set as it is in jTable2
             jTable2.setModel(DbUtils.resultSetToTableModel(rs));
             
             rs.close();

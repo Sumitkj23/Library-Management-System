@@ -12,7 +12,8 @@ package Action;
  */
 
 import Helper.javaConnect;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
@@ -30,12 +31,42 @@ public class New_Book extends javax.swing.JFrame {
         Random();
     }
     
-    public void Random()
+    public void Random()     //generate random number for book id
     {
         Random r = new Random();
-        jTextField1.setText(""+r.nextInt(1000+1));
+        jTextField1.setText(""+r.nextInt(1000+1));      // automaticaly added bookId
     }
 
+    boolean validateData()
+    {
+        boolean b = false;
+        
+        if(jTextField2.getText().trim().isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Enter Book Name");
+        else if(jTextField3.getText().trim().isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Enter Book Edition");
+        else if(jTextField4.getText().trim().isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Enter Book Publisher");
+        else if(jTextField5.getText().trim().isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Enter Book Price");
+        else
+            b = true;       // it means all the data will correctly filled
+        
+        if(b == true)       // now check price is valid or not
+        {
+            try     // try to convert price into double formate
+            {
+                Double.parseDouble(jTextField5.getText().trim());
+            }catch(Exception e)     // if price in string formate then Exception occur
+            {
+                JOptionPane.showMessageDialog(null, "Plese Enter Valid Book Price");
+                b = false;
+            }
+        }
+        
+        return b;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -198,25 +229,30 @@ public class New_Book extends javax.swing.JFrame {
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         // TODO add your handling code here:
-        String sql = "insert into Book(Book_Id, Name, Edition, Publisher, Price) values (?,?,?,?,?)";
-        try
+        
+        if(validateData())      // if true then data store in 'Book' tabel
         {
-            conn = javaConnect.ConnectDb();
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, jTextField1.getText());
-            pst.setString(2, jTextField2.getText());
-            pst.setString(3, jTextField3.getText());
-            pst.setString(4, jTextField4.getText());
-            pst.setString(5, jTextField5.getText());
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "New Book Added");
-            
-            pst.close();
-            conn.close();
-            
-        }catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(null, e);
+            String sql = "insert into Book(Book_Id, Name, Edition, Publisher, Price) values (?,?,?,?,?)";
+            try
+            {
+                conn = javaConnect.ConnectDb();
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, jTextField1.getText());
+                pst.setString(2, jTextField2.getText());
+                pst.setString(3, jTextField3.getText());
+                pst.setString(4, jTextField4.getText());
+                pst.setString(5, jTextField5.getText());
+                pst.execute();
+                
+                JOptionPane.showMessageDialog(null, "New Book Added");
+
+                pst.close();
+                conn.close();
+
+            }catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }//GEN-LAST:event_addActionPerformed
 

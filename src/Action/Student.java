@@ -29,10 +29,24 @@ public class Student extends javax.swing.JFrame {
         setrandom();
     }
     
-    public void setrandom()
+    public void setrandom()     // generate random number for 'student Id'
     {
         Random r = new Random();
-        jTextField1.setText(""+r.nextInt(1000+1));
+        jTextField1.setText(""+r.nextInt(1000+1));      // set 'student Id'
+    }
+    
+    boolean validateData()
+    {
+        boolean b = false;
+        
+        if(jTextField2.getText().trim().isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Enter Student Name");
+        else if(jTextField3.getText().trim().isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Enter Student's Father Name");
+        else
+            b = true;
+        
+        return b;
     }
 
     /**
@@ -223,28 +237,33 @@ public class Student extends javax.swing.JFrame {
         ob.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+            // new student add... in 'Student' table
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String sql = "insert into Student(Student_Id, Name, Father_Name, Course, Branch, Year, Semester) values (?,?,?,?,?,?,?)";
-        try
+        
+        if(validateData())
         {
-            conn = javaConnect.ConnectDb();
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, jTextField1.getText());
-            pst.setString(2, jTextField2.getText());
-            pst.setString(3, jTextField3.getText());
-            pst.setString(4, (String)jComboBox1.getSelectedItem());
-            pst.setString(5, (String)jComboBox2.getSelectedItem());
-            pst.setString(6, (String)jComboBox3.getSelectedItem());
-            pst.setString(7, (String)jComboBox4.getSelectedItem());
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "New Student Registered");
-            
-            pst.close();
-            conn.close();
-        }catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(null, e);
+            String sql = "insert into Student(Student_Id, Name, Father_Name, Course, Branch, Year, Semester) values (?,?,?,?,?,?,?)";
+            try
+            {
+                conn = javaConnect.ConnectDb();
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, jTextField1.getText());
+                pst.setString(2, jTextField2.getText());
+                pst.setString(3, jTextField3.getText());
+                pst.setString(4, (String)jComboBox1.getSelectedItem());
+                pst.setString(5, (String)jComboBox2.getSelectedItem());
+                pst.setString(6, (String)jComboBox3.getSelectedItem());
+                pst.setString(7, (String)jComboBox4.getSelectedItem());
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "New Student Registered");
+
+                pst.close();
+                conn.close();
+            }catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

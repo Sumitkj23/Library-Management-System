@@ -10,6 +10,7 @@ package Account;
  *
  * @author Sumit Kumar
  */
+import Helper.Loading;
 import Helper.javaConnect;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -24,9 +25,25 @@ public class Signup extends javax.swing.JFrame {
     public Signup() {
         super("Signup Page");
         initComponents();
-        conn =javaConnect.ConnectDb();
     }
 
+    boolean validateData()
+    {
+        boolean b = false;
+        
+        if(jTextField1.getText().trim().isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Enter UserName");
+        else if(jTextField2.getText().trim().isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Enter Your Name");
+        else if(jTextField3.getText().trim().isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Enter Password");
+        else if(jTextField4.getText().trim().isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Enter The Answer For Your Chosen Security Question");
+        else
+            b = true;
+        
+        return b;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -190,33 +207,42 @@ public class Signup extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+        // inserting data in database
     private void create_accountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_create_accountActionPerformed
         // TODO add your handling code here:
-        try
+        
+        if(validateData())      // if true then store data in database (Account Table)
         {
-            String sql = "Insert into Account (Username, Name, Password, Sec_Q, Answer) Values (?,?,?,?,?)";
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, jTextField1.getText());
-            pst.setString(2, jTextField2.getText().toUpperCase());
-            pst.setString(3, jTextField3.getText());
-            pst.setString(4, (String)jComboBox1.getSelectedItem());
-            pst.setString(5, jTextField4.getText().toUpperCase());
-            pst.execute();
-            
-            int i = JOptionPane.showConfirmDialog(null, "Account Successfully Created \n   Press Yes for Login", "Library Management System", JOptionPane.YES_NO_OPTION);
-            
-            pst.close();
-            
-            if(i == 0)
+            try
             {
-                setVisible(false);
-                Login obj = new Login();
-                obj.setVisible(true);
+                conn =javaConnect.ConnectDb();
+                String sql = "Insert into Account (Username, Name, Password, Sec_Q, Answer) Values (?,?,?,?,?)";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, jTextField1.getText().trim());
+                pst.setString(2, jTextField2.getText().trim().toUpperCase());
+                pst.setString(3, jTextField3.getText().trim());
+                pst.setString(4, (String)jComboBox1.getSelectedItem());
+                pst.setString(5, jTextField4.getText().trim().toUpperCase());
+                pst.execute();
+
+                int i = JOptionPane.showConfirmDialog(null, "Account Successfully Created!!! \n    Press Yes for Login Directly...", "Library Management System", JOptionPane.YES_NO_OPTION);
+
+                pst.close();
+                conn.close();
+
+                if(i == 0)
+                {
+                    setVisible(false);
+                    Loading obj = new Loading();
+                    obj.setUpLoading();
+                    obj.setVisible(true);
+                }
             }
-        }
-        catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(null, e);
+            catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }//GEN-LAST:event_create_accountActionPerformed
 

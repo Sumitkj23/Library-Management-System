@@ -22,12 +22,41 @@ public class Issue_Book extends javax.swing.JFrame {
     ResultSet rs;
     PreparedStatement pst;
     
+    String issueDate;       // storing Date Of Issue field's data
+    
     /**
      * Creates new form Issue_Book
      */
     public Issue_Book() {
         super("Issue Book");
         initComponents();
+    }
+    
+            // check bookId, StudentId and issueDate are filled or not
+    boolean validateData()
+    {
+        boolean b = false;
+        
+        issueDate = ((JTextField)jDateChooser1.getDateEditor().getUiComponent()).getText();
+        
+            // check book Id and Student id filled or not
+            
+            //if click on search button and the book id or student id correct then all the inforation automatically field 
+            //but if enter anything book id or student id and not click on search button then... 
+            // jTextField2 or jTextField7 is empty so also check it..
+            
+        if(jTextField1.getText().trim().isEmpty() || jTextField2.getText().isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Enter Valid Book Id");
+        else if(jTextField6.getText().trim().isEmpty() || jTextField7.getText().isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Enter Valid Student Id");
+        else if(issueDate.isEmpty())
+            JOptionPane.showMessageDialog(null, "Plese Fill Date Of Issue Field");
+        else
+            b = true;
+        
+        
+        
+        return b;
     }
 
     /**
@@ -302,18 +331,18 @@ public class Issue_Book extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 33, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(issue, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(172, 172, 172))
             .addGroup(layout.createSequentialGroup()
                 .addGap(152, 152, 152)
                 .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel13)
-                .addGap(27, 27, 27)
-                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(85, 85, 85))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(issue, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(170, 170, 170))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -328,9 +357,9 @@ public class Issue_Book extends javax.swing.JFrame {
                         .addComponent(jLabel13)
                         .addComponent(back))
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(issue)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addGap(28, 28, 28))
         );
 
         pack();
@@ -346,110 +375,126 @@ public class Issue_Book extends javax.swing.JFrame {
 
     private void search_bookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_bookActionPerformed
         // TODO add your handling code here:
-        String sql = "select * from Book where Book_Id=?";
-        try
+        
+        if(jTextField1.getText().trim().isEmpty())  // check bookId entered or not before click on search button
+            JOptionPane.showMessageDialog(null, "Plese Enter BookId");
+        else
         {
-            conn = javaConnect.ConnectDb();
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, jTextField1.getText());
-            rs = pst.executeQuery();
-            if(rs.next())
+            String sql = "select * from Book where Book_Id=?";      // tabel 'Book' primary key 'Book_Id'
+            try
             {
-                String add1 = rs.getString("Name");
-                jTextField2.setText(add1);
-                String add2 = rs.getString("Edition");
-                jTextField3.setText(add2);
-                String add3 = rs.getString("Publisher");
-                jTextField4.setText(add3);
-                String add4 = rs.getString("Price");
-                jTextField5.setText(add4);
+                conn = javaConnect.ConnectDb();
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, jTextField1.getText());
+                rs = pst.executeQuery();
+                if(rs.next())
+                {
+                    String add1 = rs.getString("Name");
+                    jTextField2.setText(add1);
+                    String add2 = rs.getString("Edition");
+                    jTextField3.setText(add2);
+                    String add3 = rs.getString("Publisher");
+                    jTextField4.setText(add3);
+                    String add4 = rs.getString("Price");
+                    jTextField5.setText(add4);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Book_Id Not Found !!! \nPlese Enter Valid Book_Id...");
+            }catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null, e);
             }
-            else
-                JOptionPane.showMessageDialog(null, "Book_Id Not Found!!! Enter Valid Book_Id");
-        }catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        finally
-        {
-            try{
-                rs.close();
-                pst.close();
-                conn.close();
-            }catch(Exception e){JOptionPane.showMessageDialog(null, e);}
+            finally
+            {
+                try{
+                    rs.close();
+                    pst.close();
+                    conn.close();
+                }catch(Exception e){JOptionPane.showMessageDialog(null, e);}
+            }
         }
     }//GEN-LAST:event_search_bookActionPerformed
 
     private void search_studentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_studentActionPerformed
         // TODO add your handling code here:
-        String sql = "select * from Student where Student_Id=?";
-        try
+        
+        if(jTextField6.getText().trim().isEmpty())  // check studentId entered or not before click on search button
+            JOptionPane.showMessageDialog(null, "Plese Enter BookId");
+        else
         {
-            conn = javaConnect.ConnectDb();
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, jTextField6.getText());
-            rs = pst.executeQuery();
-            if(rs.next())
-            {
-                String add1 = rs.getString("Name");
-                jTextField7.setText(add1);
-                String add2 = rs.getString("Father_Name");
-                jTextField8.setText(add2);
-                String add3 = rs.getString("Course");
-                jTextField9.setText(add3);
-                String add4 = rs.getString("Branch");
-                jTextField10.setText(add4);
-                String add5 = rs.getString("Year");
-                jTextField11.setText(add5);
-                String add6 = rs.getString("Semester");
-                jTextField12.setText(add6);
-            }
-            else
-                JOptionPane.showMessageDialog(null, "Student_Id Not Found!!! Enter Valid Student_Id");
-        }catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        finally
-        {
+            String sql = "select * from Student where Student_Id=?";
             try
             {
-                rs.close();
-                pst.close();
-                conn.close();
-            }catch(Exception e) { JOptionPane.showMessageDialog(null, e); }
+                conn = javaConnect.ConnectDb();
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, jTextField6.getText());
+                rs = pst.executeQuery();
+                if(rs.next())
+                {
+                    String add1 = rs.getString("Name");
+                    jTextField7.setText(add1);
+                    String add2 = rs.getString("Father_Name");
+                    jTextField8.setText(add2);
+                    String add3 = rs.getString("Course");
+                    jTextField9.setText(add3);
+                    String add4 = rs.getString("Branch");
+                    jTextField10.setText(add4);
+                    String add5 = rs.getString("Year");
+                    jTextField11.setText(add5);
+                    String add6 = rs.getString("Semester");
+                    jTextField12.setText(add6);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Student_Id Not Found!!! Enter Valid Student_Id");
+            }catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null, e);
+            }
+            finally
+            {
+                try
+                {
+                    rs.close();
+                    pst.close();
+                    conn.close();
+                }catch(Exception e) { JOptionPane.showMessageDialog(null, e); }
+            }
         }
     }//GEN-LAST:event_search_studentActionPerformed
 
     private void issueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_issueActionPerformed
         // TODO add your handling code here:
-        String sql = "insert into Issue_book(Book_Id, Name, Edition, Publisher, Price, Student_Id, S_Name, Father_Name, Course, Branch, Year, Semester, Issue_Date) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        try
+        
+        if(validateData())
         {
-            conn = javaConnect.ConnectDb();
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, jTextField1.getText());
-            pst.setString(2, jTextField2.getText());
-            pst.setString(3, jTextField3.getText());
-            pst.setString(4, jTextField4.getText());
-            pst.setString(5, jTextField5.getText());
-            pst.setString(6, jTextField6.getText());
-            pst.setString(7, jTextField7.getText());
-            pst.setString(8, jTextField8.getText());
-            pst.setString(9, jTextField9.getText());
-            pst.setString(10, jTextField10.getText());
-            pst.setString(11, jTextField11.getText());
-            pst.setString(12, jTextField12.getText());
-            pst.setString(13, ((JTextField)jDateChooser1.getDateEditor().getUiComponent()).getText());
-            
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "Book Issued");
-            
-            pst.close();
-            conn.close();
-        }catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(null, e);
+            String sql = "insert into Issue_book(Book_Id, Name, Edition, Publisher, Price, Student_Id, S_Name, Father_Name, Course, Branch, Year, Semester, Issue_Date) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            try
+            {
+                conn = javaConnect.ConnectDb();
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, jTextField1.getText());
+                pst.setString(2, jTextField2.getText());
+                pst.setString(3, jTextField3.getText());
+                pst.setString(4, jTextField4.getText());
+                pst.setString(5, jTextField5.getText());
+                pst.setString(6, jTextField6.getText());
+                pst.setString(7, jTextField7.getText());
+                pst.setString(8, jTextField8.getText());
+                pst.setString(9, jTextField9.getText());
+                pst.setString(10, jTextField10.getText());
+                pst.setString(11, jTextField11.getText());
+                pst.setString(12, jTextField12.getText());
+                pst.setString(13, issueDate);
+
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "Book Issued");
+
+                pst.close();
+                conn.close();
+            }catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }//GEN-LAST:event_issueActionPerformed
 
