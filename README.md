@@ -23,10 +23,15 @@ Database info -:
 ----------------------------------------------------------------------------------------------------------------------
 
 Database Table With Column Description -:
+
     'Account' : Username, Name, Password, Sec_Q, Answer
+    
     'Book'  : Book_Id, Name, Edition, Publisher, Price
+    
     'Student' : Student_Id, Name, Father_Name, Course, Branch, Year, Semester
+    
     'Issue_book' : Book_Id, Name, Edition, Publisher, Price, Student_Id, S_Name, Father_Name, Course, Branch, Year, Semester, Issue_Date
+    
     'Return_book' : Student_Id, S_Name, F_Name, Course, Branch, Year, Semester, Book_Id, B_Name, Edition, Publisher, Price, Return_Date
 ---------------------------------------------------------------------------------------------------------------------------------------
 
