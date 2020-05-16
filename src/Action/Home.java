@@ -72,7 +72,7 @@ public class Home extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Operations", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Monotype Corsiva", 0, 18), new java.awt.Color(0, 51, 255))); // NOI18N
 
-        book.setIcon(new javax.swing.ImageIcon("src\\images\\book1.png")); // NOI18N
+        book.setIcon(new javax.swing.ImageIcon("images\\book1.png")); // NOI18N
         book.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bookActionPerformed(evt);
@@ -88,7 +88,7 @@ public class Home extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Statistics");
 
-        statistics.setIcon(new javax.swing.ImageIcon("src\\images\\statistics.png")); // NOI18N
+        statistics.setIcon(new javax.swing.ImageIcon("images\\statistics.png")); // NOI18N
         statistics.setMaximumSize(new java.awt.Dimension(253, 237));
         statistics.setMinimumSize(new java.awt.Dimension(253, 237));
         statistics.addActionListener(new java.awt.event.ActionListener() {
@@ -97,7 +97,7 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        newUser.setIcon(new javax.swing.ImageIcon("src\\images\\user.png")); // NOI18N
+        newUser.setIcon(new javax.swing.ImageIcon("images\\user.png")); // NOI18N
         newUser.setMaximumSize(new java.awt.Dimension(253, 237));
         newUser.setMinimumSize(new java.awt.Dimension(253, 237));
         newUser.addActionListener(new java.awt.event.ActionListener() {
@@ -152,18 +152,18 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel7.setIcon(new javax.swing.ImageIcon("src\\images\\library3.jpg")); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon("images\\library3.jpg")); // NOI18N
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 102)), "Action", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Monotype Corsiva", 0, 18), new java.awt.Color(0, 51, 204))); // NOI18N
 
-        return_book.setIcon(new javax.swing.ImageIcon("src\\images\\return.png")); // NOI18N
+        return_book.setIcon(new javax.swing.ImageIcon("images\\return.png")); // NOI18N
         return_book.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 return_bookActionPerformed(evt);
             }
         });
 
-        about.setIcon(new javax.swing.ImageIcon("src\\images\\about.png")); // NOI18N
+        about.setIcon(new javax.swing.ImageIcon("images\\about.png")); // NOI18N
         about.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aboutActionPerformed(evt);
@@ -176,7 +176,7 @@ public class Home extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("About Me");
 
-        issue_book.setIcon(new javax.swing.ImageIcon("src\\images\\issue.png")); // NOI18N
+        issue_book.setIcon(new javax.swing.ImageIcon("images\\issue.png")); // NOI18N
         issue_book.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 issue_bookActionPerformed(evt);

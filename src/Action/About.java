@@ -59,7 +59,7 @@ public class About extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Monotype Corsiva", 0, 28)); // NOI18N
         jLabel1.setText("Library Management System");
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("F:\\programs\\netbeans\\Library Management System\\images\\my_img.png")); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon("images\\my_img.png")); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("sk3507788@gmail.com");
