@@ -86,7 +86,7 @@ public class Loading extends javax.swing.JFrame implements Runnable{    // imple
 
         jProgressBar1.setStringPainted(true);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("F:\\programs\\netbeans\\Library Management System\\images\\animated-book-image-0016.gif")); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon("images\\animated-book-image-0016.gif")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
